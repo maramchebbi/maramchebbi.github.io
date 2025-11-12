@@ -360,6 +360,7 @@
             font-weight: 700;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid transparent;
+            cursor: pointer;
         }
         
         .project-link:hover {
@@ -384,6 +385,109 @@
         .project-link.code:hover {
             background: #1A367E;
             color: white;
+        }
+
+        /* MODAL POP-UP pour GIFs */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .modal-navigation:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-prev {
+            left: 20px;
+        }
+
+        .modal-next {
+            right: 20px;
         }
 
         /* Section Autres Projets */
@@ -644,6 +748,26 @@
                 transform: translateY(0);
             }
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
         
         /* Responsive */
         @media (max-width: 768px) {
@@ -715,6 +839,31 @@
             
             .contact-links {
                 gap: 10px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+            }
+
+            .modal-close {
+                top: -35px;
+                font-size: 28px;
+                width: 35px;
+                height: 35px;
+            }
+
+            .modal-navigation {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-prev {
+                left: 10px;
+            }
+
+            .modal-next {
+                right: 10px;
             }
         }
         
@@ -788,6 +937,46 @@
     <div class="container">
         <div class="projects-grid">
             
+            <!-- Projet 1 : Détection Fraude LSTM -->
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔍</div>
+                    <div class="project-title">Détection de Fraude (LSTM)</div>
+                    <div class="project-subtitle">Deep Learning • Insurance</div>
+                </div>
+                <div class="project-body">
+                    <div class="project-description">
+                        Système intelligent de détection de fraude pour réclamations d'assurance 
+                        utilisant LSTM. Analyse 30 features, 89% accuracy, ROC-AUC 0.94.
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-icon">📊</span>
+                            <span>89% Accuracy</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-icon">🎯</span>
+                            <span>ROC-AUC 0.94</span>
+                        </div>
+                    </div>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">TensorFlow</span>
+                        <span class="tech-tag">LSTM</span>
+                        <span class="tech-tag">Streamlit</span>
+                    </div>
+                    <div class="project-links">
+                        <button class="project-link demo" onclick="openModal('fraud')">
+                            🎥 Voir Démo
+                        </button>
+                        <a href="https://github.com/maramchebbi/fraud-detection" 
+                           class="project-link code" 
+                           target="_blank">
+                            💻 Code Source
+                        </a>
+                    </div>
+                </div>
+            </div>
             
             <!-- Projet 2 : Tarification Assurance -->
             <div class="project-card">
@@ -818,11 +1007,9 @@
                         <span class="tech-tag">Streamlit</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://maramchebbiappio-tarification-assurance.streamlit.app" 
-                           class="project-link demo" 
-                           target="_blank">
-                            🚀 Démo Live
-                        </a>
+                        <button class="project-link demo" onclick="openModal('tarif')">
+                            🎥 Voir Démo
+                        </button>
                         <a href="https://github.com/maramchebbi/tarification_assurance" 
                            class="project-link code" 
                            target="_blank">
@@ -861,11 +1048,9 @@
                         <span class="tech-tag">Streamlit</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://survivalanalysis-maramchebbi.streamlit.app" 
-                           class="project-link demo" 
-                           target="_blank">
-                            🚀 Démo Live
-                        </a>
+                        <button class="project-link demo" onclick="openModal('survival')">
+                            🎥 Voir Démo
+                        </button>
                         <a href="https://github.com/maramchebbi/survival_analysis" 
                            class="project-link code" 
                            target="_blank">
@@ -904,11 +1089,9 @@
                         <span class="tech-tag">Streamlit</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://chatbotiaassurance-maramchebbi.streamlit.app/" 
-                           class="project-link demo" 
-                           target="_blank">
-                            🚀 Démo Live
-                        </a>
+                        <button class="project-link demo" onclick="openModal('chatbot')">
+                            🎥 Voir Démo
+                        </button>
                         <a href="https://github.com/maramchebbi/chatbot_ia_assurance" 
                            class="project-link code" 
                            target="_blank">
@@ -918,48 +1101,6 @@
                 </div>
             </div>
             
-            <!-- Projet 1 : Détection Fraude LSTM -->
-            <div class="project-card">
-                <div class="project-header">
-                    <div class="project-icon">🔍</div>
-                    <div class="project-title">Détection de Fraude (LSTM)</div>
-                    <div class="project-subtitle">Deep Learning • Insurance</div>
-                </div>
-                <div class="project-body">
-                    <div class="project-description">
-                        Système intelligent de détection de fraude pour réclamations d'assurance 
-                        utilisant LSTM. Analyse 30 features, 89% accuracy, ROC-AUC 0.94.
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-icon">📊</span>
-                            <span>89% Accuracy</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-icon">🎯</span>
-                            <span>ROC-AUC 0.94</span>
-                        </div>
-                    </div>
-                    <div class="tech-stack">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">TensorFlow</span>
-                        <span class="tech-tag">LSTM</span>
-                        <span class="tech-tag">Streamlit</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://fraud-detection-x6uowsdct448r3ncfyxngo.streamlit.app" 
-                           class="project-link demo" 
-                           target="_blank">
-                            🚀 Démo Live
-                        </a>
-                        <a href="https://github.com/maramchebbi/fraud-detection" 
-                           class="project-link code" 
-                           target="_blank">
-                            💻 Code Source
-                        </a>
-                    </div>
-                </div>
-            </div>
             <!-- Projet 5 : Simulateur Bancaire -->
             <div class="project-card">
                 <div class="project-header" style="background: linear-gradient(135deg, #2a4aa8 0%, #4A8FE7 100%);">
@@ -1088,8 +1229,6 @@
                     Voir sur GitHub →
                 </a>
             </div>
-
-            
         </div>
     </div>
     
@@ -1123,5 +1262,106 @@
     <div class="footer">
         <p>© 2025 Maram Chebbi • Développé avec ❤️ • Tous droits réservés</p>
     </div>
+
+    <!-- MODAL pour afficher les GIFs -->
+    <div id="gifModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-prev modal-navigation" onclick="changeSlide(-1)">&#10094;</div>
+            <img id="modalImage" src="" alt="Demo">
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-next modal-navigation" onclick="changeSlide(1)">&#10095;</div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration des GIFs par projet
+        const projectGifs = {
+    'fraud': {
+        title: 'Détection de Fraude LSTM',
+        gifs: [
+            'fraud.gif'
+        ]
+    },
+    'tarif': {
+        title: 'Tarification Assurance GLM',
+        gifs: [
+            'tarification.gif'
+        ]
+    },
+    'survival': {
+        title: 'Survival Analysis DeepSurv',
+        gifs: [
+            'survival.gif'
+        ]
+    },
+    'chatbot': {
+        title: 'Chatbot IA Assurance',
+        gifs: [
+            'chatbot.gif'
+        ]
+    }
+};
+
+        let currentProject = '';
+        let currentSlideIndex = 0;
+
+        function openModal(projectId) {
+            currentProject = projectId;
+            currentSlideIndex = 0;
+            const modal = document.getElementById('gifModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modal.classList.add('active');
+            modalImage.src = projectGifs[projectId].gifs[0];
+            modalTitle.textContent = projectGifs[projectId].title + ' - Démo ' + (currentSlideIndex + 1) + '/' + projectGifs[projectId].gifs.length;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('gifModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeSlide(direction) {
+            const project = projectGifs[currentProject];
+            currentSlideIndex += direction;
+            
+            if (currentSlideIndex >= project.gifs.length) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = project.gifs.length - 1;
+            }
+            
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            modalImage.src = project.gifs[currentSlideIndex];
+            modalTitle.textContent = project.title + ' - Démo ' + (currentSlideIndex + 1) + '/' + project.gifs.length;
+        }
+
+        // Fermer la modal en cliquant en dehors
+        window.onclick = function(event) {
+            const modal = document.getElementById('gifModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Navigation par clavier
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('gifModal');
+            if (modal.classList.contains('active')) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                } else if (event.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeSlide(1);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
